@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: dataintegration-portal-model-management-provider
+  profiles:
+    active: local
+  main:
+    allow-bean-definition-overriding: true

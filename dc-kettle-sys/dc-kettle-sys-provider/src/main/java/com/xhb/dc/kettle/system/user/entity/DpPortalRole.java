@@ -1,0 +1,57 @@
+package com.xhb.dc.kettle.system.user.entity;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import java.util.Date;
+import lombok.Data;
+
+/**
+ * 角色返回对象.
+ */
+@Data
+@ApiModel(description = "角色返回对象")
+public class DpPortalRole {
+
+    /**
+     * 角色编号(PK).
+     */
+    @ApiModelProperty("角色编号(PK)")
+    private String roleId;
+
+    /**
+     * 角色名称(UK).
+     */
+    @ApiModelProperty("角色名称(UK)")
+    private String roleName;
+
+    /**
+     * 用户描述.
+     */
+    @ApiModelProperty("用户描述")
+    private String describe;
+
+    /**
+     * 角色状态.
+     */
+    @ApiModelProperty("角色状态")
+    private String status;
+
+    /**
+     * 创建时间.
+     */
+    @ApiModelProperty("创建时间")
+    private Date createTime;
+
+    /**
+     * 修改时间.
+     */
+    @ApiModelProperty("修改时间")
+    private Date updateTime;
+
+    /**
+     * 创建者.
+     */
+    @ApiModelProperty("创建者")
+    private String createUserId;
+
+}

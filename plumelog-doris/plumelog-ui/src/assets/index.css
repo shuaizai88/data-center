@@ -1,0 +1,142 @@
+/* 搜索按钮 */
+.ivu-btn-primary:hover {
+  background-color: #33ad69 !important;
+  background: #33ad69 !important;
+}
+.ivu-btn-primary {
+  background-color: #5fa1f2 !important;
+  background: #5fa1f2 !important;
+  border-color: #5fa1f2 !important;
+}
+.ivu-btn-primary:focus {
+  box-shadow: none !important;
+}
+/* 重置按钮 */
+.ivu-btn-default {
+  background: #f2f3f7 !important;
+  border-color: #f2f3f7 !important;
+  color: rgba(0, 0, 0, 0.4);
+}
+.ivu-btn-default:hover {
+  background: #f2f3f7 !important;
+  border-color: #f2f3f7 !important;
+  color: rgba(0, 0, 0, 0.4);
+}
+.ivu-btn-default:focus {
+  box-shadow: none !important;
+}
+/* label字体 */
+.tbl_filters tr td.key {
+  color: #4e5969 !important;
+  font-weight: 400 !important;
+  letter-spacing: 0 !important;
+}
+/* input输入框 */
+.ivu-input {
+  background: #f7f8fa !important;
+  border-color: #f7f8fa !important;
+}
+.ivu-input:focus {
+  background: #f7f8fa !important;
+  border-color: #f7f8fa !important;
+  box-shadow: none !important;
+}
+/* 下拉框 */
+.ivu-select-selection:focus {
+  border-color: #5fa1f2 !important;
+  box-shadow: none !important;
+}
+.ivu-select-selection:hover {
+  border-color: #dcdfe6 !important;
+  box-shadow: none !important;
+}
+.ivu-select-visible .ivu-select-selection {
+  border-color: #5fa1f2 !important;
+  box-shadow: none !important;
+}
+/* 切换按钮页签 */
+.ivu-tabs-nav .ivu-tabs-tab:hover {
+  color: #5fa1f2 !important;
+}
+.ivu-tabs-nav .ivu-tabs-tab-active {
+  color: #5fa1f2 !important;
+}
+.ivu-tabs-ink-bar {
+  background-color: #5fa1f2 !important;
+}
+/* checkbox */
+.ivu-radio-group-button .ivu-radio-wrapper-checked:hover {
+  border-color: #5fa1f2 !important;
+}
+.ivu-radio-group-button .ivu-radio-wrapper:hover {
+  color: #5fa1f2 !important;
+}
+.ivu-radio-wrapper-checked {
+  border-color: #5fa1f2 !important;
+  color: #5fa1f2 !important;
+  box-shadow: -1px 0 0 0 #5fa1f2 !important;
+}
+.ivu-radio-group-button .ivu-radio-wrapper-checked:first-child {
+  box-shadow: none !important;
+}
+.ivu-radio-group-button .ivu-radio-wrapper:after,
+.ivu-radio-group-button .ivu-radio-wrapper:before {
+  width: 0px !important;
+}
+/* 页面内边距 */
+.pnl_wraper {
+  background: #f7f7f7 !important;
+  padding: 20px 20px 0 20px;
+  min-height: 100vh;
+}
+/* 表格样式 */
+.ivu-table-wrapper-with-border {
+  border: none !important;
+}
+/* 行样式 */
+.ivu-table-border td,
+.ivu-table-border th {
+  border-right: none !important;
+  font-size: 14px !important;
+  color: #191e24 !important;
+  height: 56px !important;
+}
+.ivu-table td,
+.ivu-table th {
+  border-bottom: none !important;
+}
+/* 表格头部行样式 */
+.ivu-table th {
+  color: rgba(25, 30, 36, 0.6) !important;
+  background-color: #fafbfd !important;
+  height: 56px !important;
+  padding: 0px !important;
+  font-size: 14px !important;
+  border-right: 0px !important;
+}
+/* 隔行变色 */
+.ivu-table-row:nth-child(2n) td {
+  background-color: #fafafa !important;
+}
+/* 鼠标移动上去每一行的颜色 */
+tr.ivu-table-row-hover td {
+  background-color: #f5f7fa !important;
+}
+.ivu-table-row-highlight td,
+.ivu-table-row-hover td {
+  background-color: #f5f7fa !important;
+}
+/* 表格最右边的一个边框 */
+.ivu-table-border:after {
+  background-color: #fff !important;
+}
+/* 分页 */
+.ivu-input-number:hover{
+  border-color: #5fa1f2 !important;
+}
+.ivu-input-number-focused{
+  border-color: #5fa1f2 !important;
+}
+.page-link:focus{
+  box-shadow: none !important;
+}

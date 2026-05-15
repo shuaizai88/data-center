@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: dataintegration-portal-system-management-provider
+  profiles:
+    active: local
+  main:
+    allow-bean-definition-overriding: true
+
+feign:
+  hystrix:
+    enabled: false

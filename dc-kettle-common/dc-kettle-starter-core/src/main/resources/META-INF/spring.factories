@@ -1,0 +1,1 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.xhb.dc.kettle.core.config.CoreAutoConfiguration

@@ -1,0 +1,48 @@
+
+
+server:
+  port: 8891
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
+
+spring:
+  boot:
+    admin:
+      context-path: admin
+  profiles:
+    active: v7
+  application:
+    name: plumelog-server
+  servlet:
+    multipart:
+      max-file-size: 10MB #上传图片大小限制为10MB
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  messages:
+    basename: i18n/messages
+  thymeleaf:
+    mode: LEGACYHTML5
+  mvc:
+    view:
+      prefix: classpath:/templates/
+      suffix: .html
+    static-path-pattern: /plumelog/**
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    nacos:
+      config:
+        name: public_setting.yml
+        file-extension: yml
+        shared-configs:
+          - data-id: plume-log.yml
+            refresh: true
+management:
+  health:
+    elasticsearch:
+      enabled: false
+

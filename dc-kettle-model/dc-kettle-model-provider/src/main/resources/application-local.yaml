@@ -1,0 +1,107 @@
+server:
+  port: 10206
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.0.3:8848
+        namespace: 0966af52-a286-46a5-a5cc-0413683e7893
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.0.3:3306/dataintegration?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    #    url: jdbc:mysql://localhost:3306/dp_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: 123456
+    hikari:
+      minimum-idle: 1
+      maximum-pool-size: 10
+      max-lifetime: 1800000
+      idle-timeout: 600000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+  redis:
+    host: 192.168.0.3
+    port: 6379
+    password: 123456
+    lettuce:
+      shutdown-timeout: 100 # 关闭超时时间
+      pool:
+        max-active: 100 # 连接池最大连接数（使用负值表示没有限制）
+        max-idle: 10 # 连接池中的最大空闲连接
+        max-wait: 1000 # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        min-idle: 1 # 连接池中的最小空闲连接
+  cache:
+    type: redis
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+
+#配置MyBatis
+mybatis:
+  mapper-locations: classpath*:com/xhb/dc/kettle/portal/model/**/**/*.xml,classpath*:com/xhb/dc/kettle/portal/common/**/**/*.xml,classpath*:com/xhb/dc/kettle/file/**/*.xml
+#pagehelper
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+#数据源驱动配置信息
+datasource:
+  types: "{MYSQL: 'com.mysql.jdbc.Driver', ORACLE: 'oracle.jdbc.driver.OracleDriver',SQLSERVER: 'com.microsoft.sqlserver.jdbc.SQLServerDriver',POSTGRESQL: 'org.postgresql.Driver',TERADATA: 'com.ncr.teradata.TeraDriver',
+  DB2: 'com.ibm.db2.jcc.DB2Driver',CLICKHOUSE:'ru.yandex.clickhouse.ClickHouseDriver'}"
+
+mysql:
+  data:
+    type: "{'bit','tinyint','smallint','mediumini','int','integer','bigint','decimal','numeric','float','double'}"
+
+#默认数据源
+default:
+  clickhouse:
+    dsName: ENGINE_CLICKHOUSE
+    describe: 默认的clickhouse
+    dsType: CLICKHOUSE
+    dsUrl: jdbc:clickhouse://tencent.vincenthsing.top:50812/default
+    driverClassName: ru.yandex.clickhouse.ClickHouseDriver
+    dsUserName: default
+    dsPassword: jRtXD8F8
+    createUserId: '00000000'
+    enabled: T
+    sourcePlatform: EXECUTIENGINE
+    dsConectorSetting: '{"minimumIdle": 10,"maximumPoolSize": 100,"maxLifetime": 1800000,"idleTimeout": 600000,"connectionTimeout": 30000,"connectionTestQuery": "SELECT 1"}'
+
+restTemplate:
+  poolSize: 200
+  perRouteSize: 50
+  connectTimeout: 3
+  readTimeut: 3
+  waitTimeout: 3
+
+# 异步线程池配置
+dp:
+  async:
+    taskExecutor:
+      corePoolSize: 10
+      maxPoolSize: 100
+      queueCapacity: 100
+      keepAliveSeconds: 60
+# 文件储存中间件
+file:
+  server:
+    useServer: minio
+    extendsFileType: minio
+    minIos3:
+      server: 192.168.0.3
+      port: 9000
+      url: http://192.168.0.3:9000
+      accessKey: BOT1B02JT5TVX3AS8QKB
+      secretKey: aOuyKjdrS6DVlhgvFpk6gi7UC6fKZI8GCsA2SHo6
+      bucketName: wishdata
+      rootPath: s3://

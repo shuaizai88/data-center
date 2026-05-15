@@ -1,0 +1,9 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.0.3:8848
+        namespace: e9cd2f45-b3e6-46ac-8919-d69ef8bba29d
+      config:
+        server-addr: 192.168.0.3:8848
+        namespace: e9cd2f45-b3e6-46ac-8919-d69ef8bba29d

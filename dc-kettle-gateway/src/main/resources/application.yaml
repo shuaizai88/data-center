@@ -1,0 +1,201 @@
+spring:
+  profiles:
+    active: local
+  application:
+    name: dataintegration-gateway
+  main:
+    allow-bean-definition-overriding: true
+  security.oauth2.resourceserver.jwt.public-key-location: classpath:jwt.pub
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  cloud:
+    circuitbreaker:
+      hystrix:
+        enabled: false
+      resilience4j:
+        enabled: true
+    gateway:
+      discovery:
+        locator:
+          # 是否和服务注册与发现组件结合，设置为 true 后可以直接使用应用名称调用服务
+          enabled: true
+          lower-case-service-id: true
+      # 路由（routes：路由，它由唯一标识（ID）、目标服务地址（uri）、一组断言（predicates）和一组过滤器组成（filters）。filters 不是必需参数。）
+      routes:
+        # 路由标识（id：标识，具有唯一性）   熔断
+        - id: dataintegration-portal-system-management-provider
+          # 目标服务地址（uri：地址，请求转发后的地址）
+          uri: lb://dataintegration-portal-system-management-provider
+          # 路由条件（predicates：断言，匹配 HTTP 请求内容）
+          predicates:
+            - Path=/api/dataintegration-portal-system-management-provider/**
+          filters:
+            ## 去掉/api/dpxxx 两层转发路径
+            - StripPrefix=2
+        #分组管理 指定到model下面去
+        - id: dataintegration-group-provider
+          uri: lb://dataintegration-portal-model-management-provider
+          predicates:
+            - Path=/api/dataintegration-group-provider/**
+          filters:
+            ## 去掉/api/dpxxx 两层转发路径
+            - StripPrefix=2
+        #项目管理
+        - id: dataintegration-project-provider
+          uri: lb://dataintegration-portal-model-management-provider
+          predicates:
+            - Path=/api/dataintegration-project-provider/**
+          filters:
+            ## 去掉/api/dpxxx 两层转发路径
+            - StripPrefix=2
+        #模型管理
+        - id: dataintegration-portal-model-management-provider
+          uri: lb://dataintegration-portal-model-management-provider
+          predicates:
+            - Path=/api/dataintegration-portal-model-management-provider/**
+          filters:
+            ## 去掉/api/dpxxx 两层转发路径
+            - StripPrefix=2
+
+        # 集成平台-运行管理
+        - id: dataintegration-di-run-management-provider
+          uri: lb://dataintegration-di-run-management-provider
+          predicates:
+            - Path=/api/dataintegration-di-run-management-provider/**
+          filters:
+            - StripPrefix=2
+          metadata:
+            useTenantRoute: true
+        #集成平台-运行管理 websocket
+        - id: ws-dataintegration-di-run-management-provider
+          uri: lb:ws://dataintegration-di-run-management-provider
+          predicates:
+            - Path=/ws/dataintegration-di-run-management-provider/**
+          filters:
+            ## 去掉/api/dpxxx 两层转发路径
+            - StripPrefix=2
+          metadata:
+            useTenantRoute: true
+        #集成平台-运行管理(调度执行)
+        - id: dataintegration-di-run-management-provider-schedule
+          uri: lb://dataintegration-di-run-management-provider
+          predicates:
+            - Path=/api/dataintegration-di-run-management-provider-schedule/**
+          filters:
+            ## 去掉/api/dpxxx 两层转发路径
+            - StripPrefix=2
+          # 单独设置超时时间
+          metadata:
+            response-timeout: 86400s
+        #用户认证服务SSO
+        - id: dataintegration-common-sso-provider
+          uri: lb://dataintegration-portal-system-management-provider
+          predicates:
+            - Path=/api/dataintegration-common-sso-provider/**
+          filters:
+            ## 去掉/api/dpxxx 两层转发路径
+            - StripPrefix=2
+        # 文件管理
+        - id: dataintegration-file-management-provider
+          uri: lb://dataintegration-portal-model-management-provider
+          predicates:
+            - Path=/api/dataintegration-file-management-provider/**
+          filters:
+            ## 去掉/api/dpxxx 两层转发路径
+            - StripPrefix=2
+          # 单独设置超时时间
+          metadata:
+            response-timeout: 86400s
+
+      default-filters:
+        - name: Retry
+          args:
+            retries: 1
+            series:
+              - SERVER_ERROR
+            methods:
+              - GET
+            exceptions:
+              - java.io.IOException
+              - org.springframework.cloud.gateway.support.TimeoutException
+        - name: RequestRateLimiter
+          args:
+            redis-rate-limiter.replenishRate: 100  # 允许用户每秒处理多少个请求
+            redis-rate-limiter.burstCapacity: 110  # 令牌桶的容量，允许在一秒钟内完成的最大请求数
+            key-resolver: "#{@requestUriResolver}" #SPEL表达式去的对应的bean
+      httpclient:
+        response-timeout: 60s
+        connect-timeout: 2000
+        websocket:
+          max-frame-payload-length: 2097152
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            # 允许携带认证信息
+            # 允许跨域的源(网站域名/ip)，设置*为全部
+            # 允许跨域请求里的head字段，设置*为全部
+            # 允许跨域的method， 默认为GET和OPTIONS，设置*为全部
+            # 跨域允许的有效期
+            allow-credentials: true
+            allowed-headers: "*"
+            allowed-methods: "*"
+            allowedOriginPatterns: "*"
+            max-age: 3600
+            # 允许response的head信息，默认仅允许如下6个：Cache-Control,Content-Language,Content-Type,Expires,Last-Modified,Pragma
+            #exposed-headers:
+jasypt:
+  encryptor:
+    password: fdasjfldjskfkf787fda9r321
+sso.resource.whiteListPatterns:
+  - /api/dataintegration-common-sso-provider/oauth/token
+  - /api/dataintegration-de-run-management-provider-schedule/scheduleExecute/executeById
+  - /api/dataintegration-de-run-management-provider-schedule/scheduleExecute/stop
+  - /api/dataintegration-di-run-management-provider-schedule/scheduleExecute/executeById
+  - /api/dataintegration-di-run-management-provider-schedule/scheduleExecute/stop
+  - /actuator/**
+  - /api/dataintegration-portal-system-management-provider/user/login
+  - /api/dataintegration-portal-model-management-provider/superset/forward
+  - /api/dataintegration-portal-system-management-provider/gateway/rateLimit/selectAll
+  - /api/dataintegration-group-provider/description
+
+resilience4j.circuitbreaker:
+  configs:
+    DynamicCircuitBreaker:
+      failureRateThreshold: 30
+      slidingWindowSize: 100
+      slidingWindowType: TIME_BASED
+      recordExceptions:
+        - org.springframework.web.client.HttpServerErrorException
+        - java.io.IOException
+      ignoreExceptions:
+        - java.lang.IllegalStateException
+
+resilience4j.timelimiter:
+  instances:
+    DynamicCircuitBreaker:
+      timeoutDuration: 60s
+      cancelRunningFuture: true
+dp:
+  gateway:
+    ratelimit:
+      sync:
+        fixedDelay: 300000
+    route:
+      sync:
+        fixedDelay: 60000
+    tokenAccessTimeoutSeconds: 1800
+    tenant:
+      sync:
+        fixedDelay: 60000
+
+  repeat:
+    enable: true
+    ignoredPaths:
+      - /api/dataintegration-api-management-provider/table/**
+      - /api/dataintegration-api-management-provider/sql/**
+      - /api/dataintegration-api-management-provider/registered/**
+      - /api/dataintegration-api-management-provider/algorithm/**
+      - /api/dataintegration-report-portal-provider/dpPortalDashboard/queryReportData
+      - /api/dataintegration-di-run-management-provider-schedule/scheduleExecute/executeById
+      - /api/dataintegration-de-run-management-provider-schedule/scheduleExecute/executeById

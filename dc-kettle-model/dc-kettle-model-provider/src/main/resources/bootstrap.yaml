@@ -1,0 +1,19 @@
+server:
+  port: 10206
+
+spring:
+  application:
+    name: dataintegration-portal-model-management-provider
+        
+management:
+  endpoints:
+    web:
+      exposure:
+        # 开放所有端点
+        include: "*"
+logging:
+  file:
+    # 配置日志目录，logbak.xml使用
+    path: ./logs/${spring.application.name}
+    # springboot admin获取日志使用
+    name: ${logging.file.path}/all/${spring.application.name}.log

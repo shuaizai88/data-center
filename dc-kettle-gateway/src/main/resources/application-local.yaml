@@ -1,0 +1,31 @@
+server:
+  port: 10200
+
+
+spring:
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.0.3:8848
+        namespace: 0966af52-a286-46a5-a5cc-0413683e7893
+
+  redis:
+    host: 192.168.0.213
+    port: 6379
+    password: 123456
+    lettuce:
+      shutdown-timeout: 100 # 关闭超时时间
+      pool:
+        max-active: 100 # 连接池最大连接数（使用负值表示没有限制）
+        max-idle: 10 # 连接池中的最大空闲连接
+        max-wait: 1000 # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        min-idle: 1 # 连接池中的最小空闲连接
+
+
+#logging.level.root: debug
+logging:
+  level:
+    io.github.resilience4j: DEBUG
+    com.dp.gateway.core.filter: DEBUG
+

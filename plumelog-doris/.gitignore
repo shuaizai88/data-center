@@ -1,0 +1,31 @@
+# Windows thumbnail cache files
+Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# yue-library ignore
+application-test-confidential.yml
+application-test-confidential.properties
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+*.iml
+# Windows shortcuts
+*.lnk
+/.idea
+/log
+/logs
+# =========================
+# Operating System Files
+# =========================
+target/
+node_modules/

@@ -1,0 +1,95 @@
+server:
+  port: 10205
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.0.3:8848
+        namespace: 0966af52-a286-46a5-a5cc-0413683e7893
+
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.0.3:3306/dataintegration?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: 123456
+    hikari:
+      minimum-idle: 1
+      maximum-pool-size: 10
+      max-lifetime: 1800000
+      idle-timeout: 600000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  redis:
+    host: 192.168.0.213
+    port: 6379
+    password: 123456
+    lettuce:
+      shutdown-timeout: 100
+      pool:
+        max-active: 8
+        max-idle: 8
+        max-wait: 30
+        min-idle: 0
+
+login:
+  status:
+    expireTime: 1800000
+  lock:
+    expireTime: 86400000
+
+#配置MyBatis
+mybatis:
+  mapper-locations: classpath*:com/xhb/dc/kettle/system/**/**/*Mapper.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#pagehelper
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+jwt:
+  tokenSecret: dasdjklqwjkdsdjasldkjas
+  expireTime: 86400000
+dp:
+  oauth2:
+    withClient: dataintegration
+    clientSecret: dataintegration
+    grantTypes: ["refresh_token", "password","authorization_code"]
+    scopes: default-scope
+    redirectUris: ["http://127.0.0.1:8089/#/login_banner"]
+    accessTokenValiditySeconds: 864000
+    refreshTokenValiditySeconds: 864000
+    keyStoreKeyLocation: jwt.jks
+    keyStorepass: dataintegration
+    keyPairAlias: jwt
+    keyPairPassword: dataintegration
+protal:
+  log:
+    run:
+      cron: 0 0 1 * * ?
+    retentionDays: 7
+
+vue-config:
+  baseUrl: http://cloud.vincenthsing.top:8080/cloud/api
+  ssoUrl: http://cloud.vincenthsing.top:8080/cloud/api/dataintegration-common-sso-provider
+  systemUrl: http://cloud.vincenthsing.top:8080/cloud/api/dataintegration-portal-system-management-provider
+  groupUrl: http://cloud.vincenthsing.top:8080/cloud/api/dataintegration-group-provider
+  projectUrl: http://cloud.vincenthsing.top:8080/cloud/api/dataintegration-common-project-provider
+  runManagerUrl: http://cloud.vincenthsing.top:8080/cloud/api/dataintegration-de-run-management-provider
+  modelMangerUrl: http://cloud.vincenthsing.top:8080/cloud/api/dataintegration-portal-model-management-provider
+  wsUrl: ws://cloud.vincenthsing.top:8080/cloud/ws/dataintegration-de-run-management-provider
+  onLineUrl: http://cloud.vincenthsing.top:8080/cloud/api/dataintegration-schedule-online-audit-provider
+  fileUrl: http://cloud.vincenthsing.top:8080/cloud/api/dataintegration-file-management-provider
+  recordUrl: http://cloud.vincenthsing.top:8080/cloud/api/dataintegration-portal-model-management-provider/superset/forward
